@@ -48,7 +48,7 @@ namespace GBaaS.io
 			if (IsAsync()) {
 				_handler.OnSendMessage(pushMessage.Save());
 			} else {
-				return pushMessage.Save();;
+				return pushMessage.Save();
 			}
 
 			return false;

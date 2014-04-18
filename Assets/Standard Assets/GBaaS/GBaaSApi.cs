@@ -406,6 +406,10 @@ namespace GBaaS.io {
 			return GBCollectionService.Instance.GameDataLoad(key);
 		}
 
+		public bool ReceiptSave(GBReceiptObject receipt) {
+			return receipt.Save();
+		}
+
 //********** For CollectionService ********** //
 		/// <summary>
 		/// Custom Collection Object 의 목록을 가져온다.
