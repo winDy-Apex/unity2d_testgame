@@ -20,13 +20,15 @@ class LoginService {
     	
     		Debug.Log("After LoginWithoutID");
     		
-    		//result = script.LoginWithoutID(GetUniqueUserKey());
-    		//result = script.LoginWithoutID(GetUniqueUserKey());
-    		result = script.UpdateUserName("John");
-    		
-    		var userInfo = script.GetUserInfo();
-    		Debug.Log("GetUserInfo username : " + userInfo.username);
-    		Debug.Log("GetUserInfo name : " + userInfo.name);
+    		if(result == true) {
+    			//result = script.LoginWithoutID(GetUniqueUserKey());
+	    		//result = script.LoginWithoutID(GetUniqueUserKey());
+	    		if(script.UpdateUserName("John") == true) {
+		    		var userInfo = script.GetUserInfo();
+		    		Debug.Log("GetUserInfo username : " + userInfo.username);
+		    		Debug.Log("GetUserInfo name : " + userInfo.name);
+		    	}
+    		}
     	} else {
     		result = script.Login(loginData.username, loginData.password);
     	}
@@ -50,6 +52,7 @@ class LoginService {
         responseHandler(response);
     }
     
+    /*
     private function GetUniqueUserKey() {
     	var fileName 	= "UserUUID.txt";
 		var uuid 		= "";
@@ -76,4 +79,5 @@ class LoginService {
 		
     	return uuid;
     }
+    */
 }

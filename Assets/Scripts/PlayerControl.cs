@@ -24,9 +24,8 @@ public class PlayerControl : MonoBehaviour
 	private bool grounded = false;			// Whether or not the player is grounded.
 	private Animator anim;					// Reference to the player's animator component.
 
-	private int scoreWaitingCount = 150;
-
-
+	//private int scoreWaitingCount = 150;
+	
 	void Awake()
 	{	
 		Debug.Log("PlayerControl Awake");

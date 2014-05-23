@@ -7,6 +7,7 @@ UnityGenerated/
 Library/
 *.unitypackage
 *.meta
+*.apk
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

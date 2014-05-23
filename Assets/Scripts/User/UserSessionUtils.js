@@ -9,8 +9,10 @@ class UserSessionUtils {
     	//findSctiptInGameObject("UserSession", "UserSession").userLogin = userLogin;
     }
     
+    /*
     private static function findSctiptInGameObject(objectName : String, scriptName : String) {
     	var userSession : GameObject = GameObject.Find(objectName);
     	return userSession.GetComponent(scriptName);
     }
+    */
 }
