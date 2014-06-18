@@ -39,7 +39,7 @@ public class LayBombs : MonoBehaviour
 
 			GBaaSObject _object = new GBaaSObject();
 			
-			_object.Init();
+			_object.Init(null);
 			_object.UpdateAchievement(0);
 		}
 

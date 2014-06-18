@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public class GCM {
 	
-	private const string CLASS_NAME = "com.kskkbys.unitygcmplugin.UnityGCMRegister";
+	private const string CLASS_NAME = "io.gbaas.unitygcmplugin.UnityGCMRegister";
 	
 	private static GameObject _receiver = null;
 	
@@ -25,7 +25,7 @@ public class GCM {
 	
 	public static void ShowToast (string message) {
 		if (Application.platform == RuntimePlatform.Android) {
-			using (AndroidJavaClass cls = new AndroidJavaClass ("com.kskkbys.unitygcmplugin.Util")) {;
+			using (AndroidJavaClass cls = new AndroidJavaClass ("io.gbaas.unitygcmplugin.Util")) {;
 				cls.CallStatic ("showToast", message);
 			}
 		}

@@ -18,7 +18,7 @@ public class Score : MonoBehaviour {
 		Debug.Log("playerControl Gameplayed? : " + PlayerControl.gamePlayed.ToString());
 		if(PlayerControl.gamePlayed) {
 			GBaaSObject aClient = new GBaaSObject();
-			aClient.Init();
+			aClient.Init(null);
 
 			PlayerControl.gamePlayed = false;
 			Debug.Log("Score is : " + System.Convert.ToString(previousScore));
