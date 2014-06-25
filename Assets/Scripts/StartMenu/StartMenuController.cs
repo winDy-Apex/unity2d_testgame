@@ -11,7 +11,7 @@ public class StartMenuController : MonoBehaviour, LoginViewListener, Registratio
 	public GUIStyle header2ErrorStyle; 
 	public GUIStyle formFieldStyle;
 	public GUIStyle errorMessageStyle;
-
+	
 	// Active view name:
 	string activeViewName = LoginView.NAME;
 	
@@ -77,6 +77,26 @@ public class StartMenuController : MonoBehaviour, LoginViewListener, Registratio
 
 	// This function will be called when scene loaded:
 	public void Start () {   
+		header1Style.normal.textColor = Color.green;
+		header1Style.fontSize = 22;
+		header1Style.alignment = TextAnchor.MiddleCenter;
+
+		header2Style.normal.textColor = Color.green;
+		header2Style.fontSize = 18;
+		header2Style.alignment = TextAnchor.MiddleCenter;
+
+		header2ErrorStyle.normal.textColor = Color.red;
+		header2ErrorStyle.fontSize = 18;
+		header2ErrorStyle.alignment = TextAnchor.MiddleCenter;
+
+		formFieldStyle.normal.textColor = Color.white;
+		formFieldStyle.fontSize = 16;
+		formFieldStyle.alignment = TextAnchor.MiddleRight;
+		
+		errorMessageStyle.normal.textColor = Color.red;
+		errorMessageStyle.fontSize = 16;
+		errorMessageStyle.fontStyle = FontStyle.Bold;
+		errorMessageStyle.alignment = TextAnchor.UpperLeft;
 		
 		// Setup of login view:
 		loginView.guiSkin = guiSkin;
