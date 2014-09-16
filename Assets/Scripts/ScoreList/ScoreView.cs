@@ -26,7 +26,7 @@ class ScoreView : GBaaSApiHandler, View {
     private bool blockUI 		= false;
     private bool isMyScoreOnly 	= false;
     private bool isRankMode		= false;
-	private List<GBScoreObject> scores = new List<GBScoreObject>();
+	private List<GBScoreObject> scores = null;
  
 	private ScoreViewListener _listener = null;
 	
@@ -46,53 +46,46 @@ class ScoreView : GBaaSApiHandler, View {
 		}
 	}
 	
-	private GBaaSObject _gbaas = new GBaaSObject();
-
 	public void getScore() {
-		Debug.Log("In getScore");
-		_gbaas.Init(this);
+		Debug.Log("ScoreView getScore");
+		GBaaSObject.Instance.Init(this);
     	
     	if(isMyScoreOnly) {
-			_gbaas.GetScore("1", "point", 10, true, false);
+			GBaaSObject.Instance.GetScore("1", "point", 10, true, false);
     	} else {
-    		_gbaas.GetScore("1", "point", 10, false, false);
+			GBaaSObject.Instance.GetScore("1", "point", 10, false, false);
     	}
  	}
  	
 	public override void OnGetScore(List<GBScoreObject> result) {
 		scores = result;
-		Debug.Log("In getScore of ScoreView result : " + scores.ToString());
+		Debug.Log("ScoreView OnGetScore result : " + scores.Count.ToString());
 	}
 
- 	public void getRank() {
-		_gbaas.Init(this);
-		_gbaas.GetRank("1", "point", "DESC", "WEEKLY", 0, 10);
- 	}
+	public override void OnGetScoreLog(List<GBScoreObject> result) {
+		scores = result;
+		Debug.Log("ScoreView OnGetScoreLog result : " + scores.Count.ToString());
+	}
 	
 	public override void OnGetRank(List<GBScoreObject> result) {
 		scores = result;
-		
-		Debug.Log("In getRank of ScoreView result : " + scores.ToString());
+		Debug.Log("ScoreView OnGetRank result : " + scores.Count.ToString());
 	}
- 	
- 	public void getScoreBuf() {
-		_gbaas.Init(this);
-		_gbaas.GetScoreBuf();
+
+	public void getRank() {
+		Debug.Log("In getRank");
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.GetRank("", "", ScoreOrder.DESC, Period.Monthly, 0, 10);
  	}
- 	
- 	public void scoreBufReset() {
-		_gbaas.Init(this);
-    	_gbaas.ScoreBufReset();
- 	}
- 	
+	 	
  	public void pushNotify(string msg) {
-		_gbaas.Init(this);
-		_gbaas.PushNotify(msg);
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.PushNotify(msg);
  	}
 
  	public void logout() {
-		_gbaas.Init(this);
-		_gbaas.Logout();
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.Logout();
  	}
  	
     public void render() {
@@ -111,9 +104,13 @@ class ScoreView : GBaaSApiHandler, View {
         // Main label:
         GUI.Label(new Rect(0, yShift, screenWidth, 30), "지바맨 랭킹 TOP 10", header1Style);
         
-        getScoreBuf();
-        if(scores == null) return;
-        
+        if(scores == null) {
+			Debug.Log("In render Score == null");
+			scores = new List<GBScoreObject>();
+			getScore();
+			return;
+		}
+
         // Message label:
         if(error) {
             GUI.Label(new Rect(0, yShift + 70, screenWidth, 30), errorMessage, header2ErrorStyle);
@@ -131,14 +128,12 @@ class ScoreView : GBaaSApiHandler, View {
         
         // Login button:
         if(GUI.Button(new Rect(xShift, yShift + 420, 120, 30), "게임하기")) {
-        	scoreBufReset();
             enterGameHandler();
         }
        
         // Switch to registration view button:
         if(GUI.Button(new Rect(xShift + 140, yShift + 420, 120, 30), "나가기")) {
 			Debug.Log("In Button Exit");
-        	scoreBufReset();
         	logout();
             exitGameHandler();
         }

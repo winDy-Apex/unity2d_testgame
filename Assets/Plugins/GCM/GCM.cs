@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -195,3 +196,4 @@ public class GCM {
 		GCMReceiver._onDeleteMessages = onDeleteMessages;
 	}
 }
+#endif

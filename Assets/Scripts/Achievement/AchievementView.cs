@@ -42,36 +42,21 @@ public class AchievementView : GBaaSApiHandler, View {
 	}
 	
     private bool blockUI 		= false;
-	private List<GBAchievementObject> achievement = new List<GBAchievementObject>();
+	private static List<GBAchievementObject> achievement = new List<GBAchievementObject>();
  
-	private GBaaSObject _gbaas = new GBaaSObject();
-
  	public void getAchievement() {
-		_gbaas.Init(this);
-    	
-		_gbaas.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
  	}
  	
- 	public void getAchievementBuf() {
-		_gbaas.Init(this);
-
-		_gbaas.GetAchievementBuf();
- 	}
-	
 	public override void OnGetAchievement(List<GBAchievementObject> result) {
+		Debug.Log ("GBaaS OnGetAchievement AchievementView " + result.Count.ToString());
 		achievement = result;
 	}
 
-	public void achievementBufReset() {
-		_gbaas.Init(this);
-
-		_gbaas.AchievementBufReset();
- 	}
-
 	public void logout() {
-		_gbaas.Init(this);
-
-		_gbaas.Logout();
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.Logout();
  	}
  	
     public void render() {
@@ -90,8 +75,10 @@ public class AchievementView : GBaaSApiHandler, View {
         // Main label:
         GUI.Label(new Rect(0, yShift, screenWidth, 30), "지바맨 달성목표", header1Style);
         
-        getAchievementBuf();
-        
+		if(achievement.Count == 0) {
+			getAchievement();
+		}
+		
         // Message label:
         if(error) {
             GUI.Label(new Rect(0, yShift + 70, screenWidth, 30), errorMessage, header2ErrorStyle);
@@ -112,13 +99,11 @@ public class AchievementView : GBaaSApiHandler, View {
 	    
         // Login button:
         if(GUI.Button(new Rect(xShift, yShift + 420, 120, 30), "게임시작")) {
-        	achievementBufReset();
             enterGameHandler();
         }
        
         // Switch to registration view button:
         if(GUI.Button(new Rect(xShift + 140, yShift + 420, 120, 30), "점수보기")) {
-        	achievementBufReset();
         	//logout();
             exitGameHandler();
         }

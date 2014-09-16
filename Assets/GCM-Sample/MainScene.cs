@@ -12,7 +12,7 @@ public class MainScene : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
+#if UNITY_ANDROID
 		// Create receiver game object
 		GCM.Initialize ();
 		
@@ -49,6 +49,7 @@ public class MainScene : MonoBehaviour {
 			GCM.ShowToast ("DeleteMessaged!!!");
 			_text = "DeleteMessages: " + total;
 		});
+#endif
 	}
 	
 	// Update is called once per frame
@@ -57,6 +58,7 @@ public class MainScene : MonoBehaviour {
 	}
 	
 	void OnGUI () {
+#if UNITY_ANDROID
 		float x = 50.0f;
 		float y = 50.0f;
 		float width = Screen.width / 2 - x - 25.0f;
@@ -124,5 +126,6 @@ public class MainScene : MonoBehaviour {
 		if (GUI.Button (new Rect (x, y, width, height), "Next")) {
 			Application.LoadLevel ("SubScene");
 		}
+#endif
 	}
 }

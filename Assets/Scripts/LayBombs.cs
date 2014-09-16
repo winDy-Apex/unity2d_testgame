@@ -37,10 +37,7 @@ public class LayBombs : MonoBehaviour
 			// Instantiate the bomb prefab.
 			Instantiate(bomb, transform.position, transform.rotation);
 
-			GBaaSObject _object = new GBaaSObject();
-			
-			_object.Init(null);
-			_object.UpdateAchievement(0);
+			GBaaSObject.Instance.UpdateAchievement(0);
 		}
 
 		// The bomb heads up display should be enabled if the player has bombs, other it should be disabled.

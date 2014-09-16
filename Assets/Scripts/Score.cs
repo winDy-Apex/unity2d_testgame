@@ -17,20 +17,18 @@ public class Score : MonoBehaviour {
 
 		Debug.Log("playerControl Gameplayed? : " + PlayerControl.gamePlayed.ToString());
 		if(PlayerControl.gamePlayed) {
-			GBaaSObject aClient = new GBaaSObject();
-			aClient.Init(null);
 
 			PlayerControl.gamePlayed = false;
 			Debug.Log("Score is : " + System.Convert.ToString(previousScore));
 
-			aClient.AddScore(new GBScoreObject {
+			GBaaSObject.Instance.AddScore(new GBScoreObject {
 				stage = "1",
 				score = previousScore,
 				unit = "point"
 			});
 
 			if(previousScore >= 2000) {
-				aClient.UpdateAchievement(1);
+				GBaaSObject.Instance.UpdateAchievement(1);
 			}
 
 			Application.LoadLevel(3); // Go Score Page

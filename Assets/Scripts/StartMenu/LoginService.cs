@@ -14,13 +14,15 @@ public class LoginService : GBaaSApiHandler {
 		_listener = listener;
 	}
 	
-	private GBaaSObject 	_gbaas = new GBaaSObject();
+	private GBaaSObject 	_gbaas; // = new GBaaSObject();
 	private GBUserObject 	_userInfo;
 	private LoginData		_loginData;
 
 	public void sendLoginData(LoginData loginData) {
-        
-    	_gbaas.Init(this);
+		Debug.Log("In sendLoginData");
+
+		_gbaas = GBaaSObject.Instance;
+		_gbaas.Init(this);
     	
 		_loginData = loginData;
 
@@ -28,8 +30,9 @@ public class LoginService : GBaaSApiHandler {
 			_gbaas.LoginWithFacebook(loginData.facebookToken);
     	} else if(loginData.username.Length == 0) {
     		Debug.Log("Try LoginWithoutID");
-			_gbaas.LoginWithoutID("ABABABABABCCCCCCCCDDDD123");
-    	} else {
+			_gbaas.LoginWithoutID("ABABABABABCCCCCCCCDDDD12345");
+		} else {
+			Debug.Log("Try Login");
 			_gbaas.Login(loginData.username, loginData.password);
     	}
     }
@@ -76,6 +79,7 @@ public class LoginService : GBaaSApiHandler {
 
 	public override void OnGetUserInfo(GBUserObject result) {
 		if(result != default(GBUserObject)) {
+			_userInfo = result;
 			Debug.Log("GetUserInfo username : "	+ _userInfo.username);
 			Debug.Log("GetUserInfo name : " 	+ _userInfo.name);
 			OnLogin(true);

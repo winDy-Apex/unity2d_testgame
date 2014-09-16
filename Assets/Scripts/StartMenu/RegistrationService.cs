@@ -14,12 +14,10 @@ class RegistrationService : GBaaSApiHandler {
 		_listener = listener;
 	}
 	
-	private GBaaSObject _gbaas = new GBaaSObject();
-
 	public void sendRegistrationData(RegistrationData registrationData) {
 		Debug.Log("sendRegistrationData " + registrationData.username);
-		_gbaas.Init(this);
-		_gbaas.CreateUser(registrationData.username, registrationData.password, registrationData.email);
+		GBaaSObject.Instance.Init(this);
+		GBaaSObject.Instance.CreateUser(registrationData.username, registrationData.password, registrationData.email);
     }
 	
 	public override void OnCreateUser(string result) {

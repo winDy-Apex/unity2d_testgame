@@ -1,6 +1,9 @@
 fileFormatVersion: 2
 guid: f66e58b49cbb63741a688917eebb1b1d
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bus
+    21300002: Wheels
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +38,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +54,7 @@ TextureImporter:
         height: 346
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: Wheels
       rect:
         serializedVersion: 2
@@ -59,5 +64,6 @@ TextureImporter:
         height: 62
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
