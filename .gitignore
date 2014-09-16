@@ -6,6 +6,10 @@ Obj/
 UnityGenerated/
 #Library/
 Library/metadata/
+Library/ScriptAssemblies/
+Library/assetDatabase3
+Library/guidmapper
+Library/ShaderCache/
 *.unitypackage
 *.meta
 *.apk
