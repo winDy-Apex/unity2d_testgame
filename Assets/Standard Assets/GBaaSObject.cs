@@ -236,7 +236,7 @@ public class GBaaSObject : MonoBehaviour {
 		public string lastname { get; set; }
 		public string title { get; set; }
 		public string homePage { get; set; }
-		public string Email { get; set; }
+		public string email { get; set; }
 		public string bday { get; set; }
 		public string picture { get; set; }
 		public string tel { get; set; }
@@ -259,7 +259,7 @@ public class GBaaSObject : MonoBehaviour {
 	/// var result = gBaasobject.UpdateUser(new GBUserObject {
 	/// 	username = un,
 	/// 	password = PASSWORD,
-	/// 	Email = "test@test.com",
+	/// 	email = "test@test.com",
 	/// 	age = 19,
 	/// 	gender = "Female"
 	/// });
@@ -283,13 +283,13 @@ public class GBaaSObject : MonoBehaviour {
 	/// <returns>생성된 사용자 정보에 대한 UUID</returns>
 	/// <param name="userName">사용자 ID</param>
 	/// <param name="password">암호</param>
-	/// <param name="email">Email</param>
+	/// <param name="email">email</param>
 	public string CreateUser(string userName, string password, string email) {
 		Debug.Log("CreateUser");
 		GBUserObject userModel = new GBUserObject {
 			username = userName,
 			password = password,
-			Email = email
+			email = email
 		};
 
 		return _gBaaSApi.CreateUser(userModel);
