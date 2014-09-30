@@ -27,13 +27,13 @@ public class LoginService : GBaaSApiHandler {
 		_loginData = loginData;
 
     	if(loginData.facebookToken.Length > 0) {
-			_gbaas.LoginWithFacebook(loginData.facebookToken);
+			_gbaas.API.LoginWithFaceBook(loginData.facebookToken);
     	} else if(loginData.username.Length == 0) {
     		Debug.Log("Try LoginWithoutID");
-			_gbaas.LoginWithoutID("ABABABABABCCCCCCCCDDDD12345");
+			_gbaas.API.LoginWithoutID("ABABABABABCCCCCCCCDDDD12345");
 		} else {
 			Debug.Log("Try Login");
-			_gbaas.Login(loginData.username, loginData.password);
+			_gbaas.API.Login(loginData.username, loginData.password);
     	}
     }
 
@@ -65,7 +65,7 @@ public class LoginService : GBaaSApiHandler {
 		Debug.Log("OnLoginWithoutID");
 
 		if(result == true) {
-			_gbaas.UpdateUserName("John");
+			_gbaas.API.UpdateUserName("John");
 		}
 
 		OnLogin(result);
@@ -73,7 +73,7 @@ public class LoginService : GBaaSApiHandler {
 	
 	public override void OnUpdateUserName(bool result) {
 		if(result == true) {
-			_userInfo = _gbaas.GetUserInfo();
+			_userInfo = _gbaas.API.GetUserInfo();
 		}
 	}
 

@@ -9,19 +9,6 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
-// **************************
-// 사용자 정보로 변경하여야 하는 부분
-public class UserDefines {
-	//For Preview of GBaaS, USE ONLY FOR TEST
-	public static string API_ENDPOINT = "https://api.gbaas.io/33e8b61a-3340-11e4-ab01-b99509431e86/2608ef70-3344-11e4-9ca9-15e8a7c9ff3a/"; //GBaaS Test Project
-	public static string GOOGLE_PROJECT_NUM_FOR_GCM = "941440455383";
-
-	//YOUR OWN API_ENDPOINT
-	//public static string API_ENDPOINT = "ENTER YOUR GBAAS API ENDPOINT";
-	//public static string GOOGLE_PROJECT_NUM_FOR_GCM = "ENTER YOUR OWN";
-}
-// **************************
-
 // GBaaS Api 를 맵핑하여 게임에 특화된 파라미터를 미리 입력하여 편리하게 사용한다.
 // dev.gbaas.io 에서 얻을 수 있는 Summary >> Access Information 의
 // API Endpoint 값으로 Init()을 호출한 후 사용할 수 있다.
@@ -85,7 +72,7 @@ public class GBaaSObject : MonoBehaviour {
 		}
 	}
 
-	GBaaSApi _gBaaSApi = null;
+	public GBaaSApi API = null;
 	public static string		loginName 		= "";
 	public static string		_registrationId	= "";
 	public List<GBScoreObject> 	score 			= null;
@@ -106,15 +93,15 @@ public class GBaaSObject : MonoBehaviour {
 
 	// GBaaS Api 를 초기화 한다.
 	public void Init(GBaaSApiHandler handler = null) {
-		if(_gBaaSApi == null) {
+		if(API == null) {
 			ServicePointManager.ServerCertificateValidationCallback = Validator;
-			_gBaaSApi = new GBaaSApi(UserDefines.API_ENDPOINT); //GBaaSMan2
+			API = new GBaaSApi(GBaaSUserObject.API_ENDPOINT); //GBaaSMan2
 
 			//GBaaSAsyncHandler handler = new GBaaSAsyncHandler();
-			_gBaaSApi.AddHandler(new GBaaSAsyncHandler(this));
+			API.AddHandler(new GBaaSAsyncHandler(this));
 
 			// 구글에서 받은 Project Number를 입력하는 부분 
-			string[] senderIds = {UserDefines.GOOGLE_PROJECT_NUM_FOR_GCM};
+			string[] senderIds = {GBaaSUserObject.GOOGLE_PROJECT_NUM_FOR_GCM};
 
 #if UNITY_ANDROID
 			// PUSH 알림 수신을 위한 GCM 초기화 부분
@@ -160,119 +147,16 @@ public class GBaaSObject : MonoBehaviour {
 		}
 
 		if(handler != null) {
-			bool isAdded = _gBaaSApi.AddHandler(handler);
+			bool isAdded = API.AddHandler(handler);
 			Debug.Log ("GBaaSObject Init handled is Added : " + isAdded.ToString());
 		}
-	}
-
-//********** For UserService ********** //
-	/// GBaaS 사용자 서비스에 로그인 하는 방법은 아래의 몇가지 방법중 하나를 이용하면 된다.
-	/// LoginWithFacebook, facebook SDK 를 통해서 얻은 Facebook Token 을 이용
-	/// facebook 과 사용자 정보가 연동된다.
-	///
-	/// Login, CreateUser 를 통해서 생성한 GBaaS 계정을 이용한 로그인
-	///
-	/// LoginWithoutID, 특별한 사용자 생성없이 사용자에 대한 식별값으로 로그인을 대신함
-	
-	/// <summary>
-	/// 페이스북 Token 을 이용하여 로그인 한다.
-	/// 로그인시 자동으로 페이스북 정보와 연동하여 사용자 정보를
-	/// GBaaS 의 dev.gbaas.io 의 User 항목에 생성한다.
-	/// </summary>
-	/// <returns><c>true</c>, if with facebook was logined, <c>false</c> otherwise.</returns>
-	/// <param name="facebookToken">페이스북 Token 은 Facebook SDK를 통해서 구한다.</param>
-	public bool LoginWithFacebook(string facebookToken) {
-		return _gBaaSApi.LoginWithFaceBook(facebookToken);
-	}
-
-	/// <summary>
-	/// 사용자 ID와 암호를 이용하여 GBaaS 에 로그인 한다.
-	/// </summary>
-	/// <param name="userName">사용자 ID</param>
-	/// <param name="password">암호</param>
-	public bool Login(string userName, string password) {
-		return _gBaaSApi.Login(userName, password);
-	}
-	
-	/// <summary>
-	/// GBaaS 의 ID/Password 가 아니라
-	/// 임의의 유니크 키를 이용하여 바로 사용자를 생성하고 로그인 한다.
-	/// 같은 사용자에 대해서는 동일한 키를 이용하면 같은 사용자로 인식되어 로그인 된다.
-	/// Device ID 나 UUID 또는 카카오톡 회원번호등 게임 환경에 따라 식별값을 사용하면 된다.
-	/// 사용자의 정보 수정은 GBaaSApi 의 UpdateUser 를 통해서 가능하며
-	/// 사용자의 이름만 수정할 경우 UpdateUserName 을 사용하여 간편하게 할 수 있다.
-	/// 로그인 후 사용자 정보를 가져올 때는 GetUserInfo 를 호출한다.
-	/// </summary>
-	/// <returns><c>true</c>, if without I was logined, <c>false</c> otherwise.</returns>
-	/// <param name="uniqueUserKey">Unique user key.</param>
-	public bool LoginWithoutID(string uniqueUserKey) {
-		Debug.Log ("LoginWithoutID uniqueUserKey : " + uniqueUserKey);
-		return _gBaaSApi.LoginWithoutID(uniqueUserKey);
-	}
-
-	/// <summary>
-	/// LoginWithoutID 와 쌍으로 사용한다.
-	/// 임의로 로그인한 사용자에게 표시이름을 부여한다.
-	/// </summary>
-	/// <returns><c>true</c>, if user name was updated, <c>false</c> otherwise.</returns>
-	/// <param name="userName">User name.</param>
-	public bool UpdateUserName(string userName) {
-		return _gBaaSApi.UpdateUserName(userName);
-	}
-	
-	/// <summary>
-	/// 로그인한 사용자의 사용자 정보를 가져온다.
-	/// </summary>
-	/// <returns>사용자 정보를 표시하는 오브젝트 namespace GBaaS.io.Objects
-	/// namespace GBaaS.io.Objects 에 있습니다.
-	///{
-	/*
-	{
-		public string uuid { get; set; }
-		public string name { get; set; }
-		public string username { get; set; }
-		public string password { get; set; }
-		public string firstname { get; set; }
-		public string lastname { get; set; }
-		public string title { get; set; }
-		public string homePage { get; set; }
-		public string email { get; set; }
-		public string bday { get; set; }
-		public string picture { get; set; }
-		public string tel { get; set; }
-		public string url { get; set; }
-		public int age { get; set; }
-		public string gender { get; set; }
-	}
-	*/
-	///}
-	/// </returns>
-	public GBUserObject GetUserInfo() {
-		return _gBaaSApi.GetUserInfo();
-	}
-
-	/// 사용자 암호등 사용자 정보를 수정한다.
-	/// </summary>
-	/// <returns>수정된 사용자 정보에 대한 Json String, 수정 확인용도로만 사용한다.</returns>
-	/// <param name="userModel">User model.</param>
-	/// @code
-	/// var result = gBaasobject.UpdateUser(new GBUserObject {
-	/// 	username = un,
-	/// 	password = PASSWORD,
-	/// 	email = "test@test.com",
-	/// 	age = 19,
-	/// 	gender = "Female"
-	/// });
-	/// @endcode
-	public string UpdateUser(GBUserObject userModel) {
-		return _gBaaSApi.UpdateUser (userModel);
 	}
 
 	/// <summary>
 	/// GBaaS 서비스에서 사용자를 로그아웃 시킵니다.
 	/// </summary>
 	public void Logout() {
-		_gBaaSApi.Logout();
+		API.Logout();
 	}
 
 	/// <summary>
@@ -292,7 +176,7 @@ public class GBaaSObject : MonoBehaviour {
 			email = email
 		};
 
-		return _gBaaSApi.CreateUser(userModel);
+		return API.CreateUser(userModel);
 	}
 	
 	//********** For ScoreService ********** //
@@ -309,9 +193,9 @@ public class GBaaSObject : MonoBehaviour {
 	public List<GBScoreObject> GetScore(string stage, string unit, int limit, bool isLog, bool isMore) {
 
 		if(isLog) {
-			this.score = _gBaaSApi.GetScoreLogMore(stage, unit, limit, isMore);
+			this.score = API.GetScoreLogMore(stage, unit, limit, isMore);
 		} else {
-			this.score = _gBaaSApi.GetScoreMore(stage, unit, limit, isMore);
+			this.score = API.GetScoreMore(stage, unit, limit, isMore);
 		}
 
 		return this.score;
@@ -327,7 +211,7 @@ public class GBaaSObject : MonoBehaviour {
 	// 구할 수 있다.
 	public List<GBScoreObject> GetRank(string stage, string unit, ScoreOrder scoreOrder, Period period, int rank, int range) {
 
-		this.score = _gBaaSApi.GetRank(stage, unit, scoreOrder, period, 0, 10);
+		this.score = API.GetRank(stage, unit, scoreOrder, period, 0, 10);
 
 		return this.score;
 	}
@@ -341,7 +225,7 @@ public class GBaaSObject : MonoBehaviour {
 	});
 	*/
 	public bool AddScore(GBScoreObject score) {
-		return _gBaaSApi.AddScore(score);
+		return API.AddScore(score);
 	}
 	
 //********** For PushService ********** //
@@ -355,7 +239,7 @@ public class GBaaSObject : MonoBehaviour {
 	/// <param name="registeration_id">Registeration_id.</param>
 	public bool RegisterDevice(
 		string deviceModel, string deviceOSVersion, string devicePlatform, string registeration_id) {
-		return _gBaaSApi.RegisterDevice(deviceModel, deviceOSVersion, devicePlatform, registeration_id);
+		return API.RegisterDevice(deviceModel, deviceOSVersion, devicePlatform, registeration_id);
 	}
 
 	public bool IsRegisteredDevice(
@@ -365,14 +249,14 @@ public class GBaaSObject : MonoBehaviour {
 		_registrationId = registeration_id;
 		if (asyncRuns["IsRegisteredDevice"] == null || asyncRuns["IsRegisteredDevice"].ToString().CompareTo("Run") != 0) {
 			asyncRuns["IsRegisteredDevice"] = "Run";
-			result = _gBaaSApi.IsRegisteredDevice(deviceModel, deviceOSVersion, devicePlatform, registeration_id);
+			result = API.IsRegisteredDevice(deviceModel, deviceOSVersion, devicePlatform, registeration_id);
 		}
 
 		return result;
 	}
 
 	public bool PushNotify(string msg) {
-		return _gBaaSApi.SendMessage(msg, "", "", "", "", PushSendType.alldevices, PushScheduleType.now);
+		return API.SendMessage(msg, "", "", "", "", PushSendType.alldevices, PushScheduleType.now);
 	}
 
 //********** For GameData Service ********** //
@@ -381,11 +265,11 @@ public class GBaaSObject : MonoBehaviour {
 	// Value 는 저장 전에 암호화 되어 전송되며
 	// Load 될 때 자동으로 복호화 된다.
 	public bool GameDataSave(string key, string value) {
-		return _gBaaSApi.GameDataSave(key, value);
+		return API.GameDataSave(key, value);
 	}
 	
 	public string GameDataLoad(string key) {
-		return _gBaaSApi.GameDataLoad(key);
+		return API.GameDataLoad(key);
 	}
 
 	// GBaaS 서버에 결제 정보를 저장한다.
@@ -452,7 +336,7 @@ public class GBaaSObject : MonoBehaviour {
 	/// <param name="limit">Limit.</param>
 	/// <param name="cursor">Cursor.</param>
 	public List<GBAchievementObject> GetAchievement(string locale, int limit, string cursor) {
-		this.achievement = _gBaaSApi.GetAchievement(locale, limit, cursor);
+		this.achievement = API.GetAchievement(locale, limit, cursor);
 		return this.achievement;
 	}
 
@@ -480,12 +364,12 @@ public class GBaaSObject : MonoBehaviour {
 	public bool UpdateAchievement(int achievementType) {
 		GBAchievementObject result = null;
 		if(achievementType == 0) {
-			result = _gBaaSApi.UpdateAchievement("UseBombMoreThanOnce",
+			result = API.UpdateAchievement("UseBombMoreThanOnce",
 				1,
 				true
 			);
 		} else if(achievementType == 1) {
-			result = _gBaaSApi.UpdateAchievement("GetScore2000Over",
+			result = API.UpdateAchievement("GetScore2000Over",
 			                                          1,
 			                                          true
 			                                          );
