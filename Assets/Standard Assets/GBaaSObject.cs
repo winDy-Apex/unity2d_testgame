@@ -146,10 +146,8 @@ public class GBaaSObject : MonoBehaviour {
 			//GameMonitorStatusSave(100, 200, 300);
 		}
 
-		if(handler != null) {
-			bool isAdded = API.AddHandler(handler);
-			Debug.Log ("GBaaSObject Init handled is Added : " + isAdded.ToString());
-		}
+		bool isAdded = API.AddHandler(handler);
+		Debug.Log ("GBaaSObject Init handled is Added : " + isAdded.ToString());
 	}
 
 	/// <summary>
