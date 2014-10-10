@@ -72,7 +72,7 @@ public class LoginView : View {
         }
        
         // Login label and login text field:
-        GUI.Label(new Rect(xShift, yShift + 90, 100, 30), "사용자이름:", formFieldStyle);
+        GUI.Label(new Rect(xShift, yShift + 90, 100, 30), "ID:", formFieldStyle);
         data.username = GUI.TextField(new Rect(xShift + 110, yShift + 90, 150, 30), data.username, 16);
     
         // Password label and password text field:

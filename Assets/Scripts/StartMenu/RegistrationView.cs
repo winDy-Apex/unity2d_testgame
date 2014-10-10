@@ -68,7 +68,7 @@ class RegistrationView : View {
         
         // Login label and text filed:
         yAlignPos = 100;
-        GUI.Label(new Rect(xShift, yShift + yAlignPos, 100, 30), "사용자이름:", formFieldStyle);
+        GUI.Label(new Rect(xShift, yShift + yAlignPos, 100, 30), "ID:", formFieldStyle);
         data.username = GUI.TextField(new Rect(xShift + 110, yShift + yAlignPos, 250, 30), data.username, 16);
         
         // Password label and text filed:

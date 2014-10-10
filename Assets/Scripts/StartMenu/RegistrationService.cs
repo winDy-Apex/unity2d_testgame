@@ -17,7 +17,7 @@ class RegistrationService : GBaaSApiHandler {
 	public void sendRegistrationData(RegistrationData registrationData) {
 		Debug.Log("sendRegistrationData " + registrationData.username);
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.CreateUser(registrationData.username, registrationData.password, registrationData.email);
+		GBaaSObject.Instance.CreateUser(registrationData.username, registrationData.name, registrationData.password, registrationData.email);
     }
 	
 	public override void OnCreateUser(string result) {
