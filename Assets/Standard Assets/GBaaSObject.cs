@@ -104,43 +104,46 @@ public class GBaaSObject : MonoBehaviour {
 			string[] senderIds = {GBaaSUserObject.GOOGLE_PROJECT_NUM_FOR_GCM};
 
 #if UNITY_ANDROID
-			// PUSH 알림 수신을 위한 GCM 초기화 부분
-			GCM.Initialize ();
-			
-			// Set callbacks
-			GCM.SetErrorCallback ((string errorId) => {
-				Debug.Log ("Error!!! " + errorId);
-			});
-			
-			// PUSH 알림 메시지 수신에 대한 처리를 추가하여야 하는 부분
-			GCM.SetMessageCallback ((Dictionary<string, object> table) => {
-				Debug.Log ("Message!!! " + table.ToString());
+			if(GBaaSUserObject.GOOGLE_PROJECT_NUM_FOR_GCM.Length > 0) {
+				// PUSH 알림 수신을 위한 GCM 초기화 부분
+				GCM.Initialize ();
+				
+				// Set callbacks
+				GCM.SetErrorCallback ((string errorId) => {
+					Debug.Log ("Error!!! " + errorId);
+				});
+				
+				// PUSH 알림 메시지 수신에 대한 처리를 추가하여야 하는 부분
+				GCM.SetMessageCallback ((Dictionary<string, object> table) => {
+					Debug.Log ("Message!!! " + table.ToString());
 
-				//string text = "Message: " + System.Environment.NewLine;
-				//foreach (var key in  table.Keys) {
-				//	text += key + "=" + table[key] + System.Environment.NewLine;
-				//}
-				//GCM.ShowToast(text);
+					//string text = "Message: " + System.Environment.NewLine;
+					//foreach (var key in  table.Keys) {
+					//	text += key + "=" + table[key] + System.Environment.NewLine;
+					//}
+					//GCM.ShowToast(text);
 
-				GCM.ShowToast (table["message"].ToString());
-			});
+					GCM.ShowToast (table["message"].ToString());
+				});
 
-			// PUSH 알림을 받을 단말기의 정보를 입력하는 부분
-			GCM.SetRegisteredCallback ((string registrationId) => {
-				Debug.Log ("Registered!!! registrationId = " + registrationId);
-				IsRegisteredDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", registrationId);
-			});
+				// PUSH 알림을 받을 단말기의 정보를 입력하는 부분
+				GCM.SetRegisteredCallback ((string registrationId) => {
+					Debug.Log ("Registered!!! registrationId = " + registrationId);
+					IsRegisteredDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", registrationId);
+				});
 
-			GCM.SetUnregisteredCallback ((string registrationId) => {
-				Debug.Log ("Unregistered!!! " + registrationId);
-			});
-			
-			GCM.SetDeleteMessagesCallback ((int total) => {
-				Debug.Log ("DeleteMessages!!! " + total);
-			});
+				GCM.SetUnregisteredCallback ((string registrationId) => {
+					Debug.Log ("Unregistered!!! " + registrationId);
+				});
+				
+				GCM.SetDeleteMessagesCallback ((int total) => {
+					Debug.Log ("DeleteMessages!!! " + total);
+				});
 
-			GCM.Register (senderIds);
+				GCM.Register (senderIds);
+			}
 #endif
+
 			// Just For Monitoring Status Save Test
 			// 커스텀 오브젝트 호출 테스트를 위한 부분
 			//GameMonitorStatusSave(100, 200, 300);
