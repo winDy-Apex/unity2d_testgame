@@ -49,16 +49,16 @@ public class GBaaSObject : MonoBehaviour {
 			_outerClass.achievement = result;
 			
 			foreach (var item in _outerClass.achievement) {
-				Debug.Log(item.achievementName);
-				Debug.Log(item.currentStepCount);
-				Debug.Log(item.earnedDescription);
-				Debug.Log(item.incrementalCount);
-				Debug.Log(item.isHidden);
-				Debug.Log(item.isMoreThanOnce);
-				Debug.Log(item.isUnlocked);
-				Debug.Log(item.points);
-				Debug.Log(item.preEarnedDescription);
-				Debug.Log(item.uuid);
+				Debug.Log("achievementName:" + item.achievementName);
+				Debug.Log("currentStepCount:" + item.currentStepCount);
+				Debug.Log("earnedDescription:" + item.earnedDescription);
+				Debug.Log("incrementalCount:" + item.incrementalCount);
+				Debug.Log("isHidden:" + item.isHidden);
+				Debug.Log("isMoreThanOnce:" + item.isMoreThanOnce);
+				Debug.Log("isUnLocked:" + item.isUnLocked);
+				Debug.Log("points:" + item.points);
+				Debug.Log("preEarnedDescription:" + item.preEarnedDescription);
+				Debug.Log("uuid:" + item.uuid);
 			}
 		}
 		
@@ -366,15 +366,11 @@ public class GBaaSObject : MonoBehaviour {
 	public bool UpdateAchievement(int achievementType) {
 		GBAchievementObject result = null;
 		if(achievementType == 0) {
-			result = API.UpdateAchievement("UseBombMoreThanOnce",
-				1,
-				true
-			);
+			Debug.Log ("Update Achievement UseBombMoreThanOnce");
+			result = API.UpdateAchievement("6fc2135a-54f8-11e4-ba58-3bba8e7daf56", 1, true);
 		} else if(achievementType == 1) {
-			result = API.UpdateAchievement("GetScore2000Over",
-			                                          1,
-			                                          true
-			                                          );
+			Debug.Log ("Update Achievement GetScore2000Over");
+			result = API.UpdateAchievement("d0b24e5a-54f3-11e4-b688-3199c630a20e", 1, true);
 		}
 		return (result != null);
 	}

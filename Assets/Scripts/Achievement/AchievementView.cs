@@ -87,7 +87,7 @@ public class AchievementView : GBaaSApiHandler, View {
 	       	{
 	       		//Debug.Log(achievement[i].isUnlocked);
 	       		
-	       		if(achievement[i].isUnlocked) {
+	       		if(achievement[i].isUnLocked) {
 	       			//Debug.Log("isUnlocked");
 	       			GUI.Label(new Rect(0, yShift + 70 + (60 * i), screenWidth, 30), achievement[i].achievementName + " : " + achievement[i].earnedDescription, header2Style);
 	       		} else {
