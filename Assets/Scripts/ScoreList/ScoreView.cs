@@ -51,9 +51,9 @@ class ScoreView : GBaaSApiHandler, View {
 		GBaaSObject.Instance.Init(this);
     	
     	if(isMyScoreOnly) {
-			GBaaSObject.Instance.GetScore("1", "point", 10, true, false);
+			GBaaSObject.Instance.API.GetScoreLog("1", "point", 10);
     	} else {
-			GBaaSObject.Instance.GetScore("1", "point", 10, false, false);
+			GBaaSObject.Instance.API.GetScore("1", "point", 10);
     	}
  	}
  	
@@ -75,7 +75,7 @@ class ScoreView : GBaaSApiHandler, View {
 	public void getRank() {
 		Debug.Log("In getRank");
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.GetRank("", "", ScoreOrder.DESC, Period.Monthly, 0, 10);
+		GBaaSObject.Instance.API.GetRank("", "", ScoreOrder.DESC, Period.Monthly, 0, 10);
  	}
 	 	
  	public void pushNotify(string msg) {
@@ -85,7 +85,7 @@ class ScoreView : GBaaSApiHandler, View {
 
  	public void logout() {
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.Logout();
+		GBaaSObject.Instance.API.Logout();
  	}
  	
     public void render() {

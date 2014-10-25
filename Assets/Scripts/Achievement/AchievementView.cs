@@ -41,22 +41,22 @@ public class AchievementView : GBaaSApiHandler, View {
 		}
 	}
 	
-    private bool blockUI 		= false;
-	private static List<GBAchievementObject> achievement = new List<GBAchievementObject>();
+    private bool blockUI = false;
+	private static List<GBAchievementObject> _achievement = null;
  
  	public void getAchievement() {
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
+		GBaaSObject.Instance.API.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
  	}
  	
 	public override void OnGetAchievement(List<GBAchievementObject> result) {
 		Debug.Log ("GBaaS OnGetAchievement AchievementView " + result.Count.ToString());
-		achievement = result;
+		_achievement = result;
 	}
 
 	public void logout() {
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.Logout();
+		GBaaSObject.Instance.API.Logout();
  	}
  	
     public void render() {
@@ -75,7 +75,8 @@ public class AchievementView : GBaaSApiHandler, View {
         // Main label:
         GUI.Label(new Rect(0, yShift, screenWidth, 30), "지바맨 달성목표", header1Style);
         
-		if(achievement.Count == 0) {
+		if(_achievement == null) {
+			_achievement = new List<GBAchievementObject>(); // 비동기 응답이 오기전까지 다시 호출되는 것을 막기 위해.
 			getAchievement();
 		}
 		
@@ -83,16 +84,16 @@ public class AchievementView : GBaaSApiHandler, View {
         if(error) {
             GUI.Label(new Rect(0, yShift + 70, screenWidth, 30), errorMessage, header2ErrorStyle);
         } else {      
-	       	for(var i=0; i<achievement.Count; i++)
+			for(var i=0; i<_achievement.Count; i++)
 	       	{
 	       		//Debug.Log(achievement[i].isUnlocked);
 	       		
-	       		if(achievement[i].isUnLocked) {
+				if(_achievement[i].isUnLocked) {
 	       			//Debug.Log("isUnlocked");
-	       			GUI.Label(new Rect(0, yShift + 70 + (60 * i), screenWidth, 30), achievement[i].achievementName + " : " + achievement[i].earnedDescription, header2Style);
+					GUI.Label(new Rect(0, yShift + 70 + (60 * i), screenWidth, 30), _achievement[i].achievementName + " : " + _achievement[i].earnedDescription, header2Style);
 	       		} else {
 	       		    //Debug.Log("Achievement locked");
-	       			GUI.Label(new Rect(0, yShift + 70 + (60 * i), screenWidth, 30), achievement[i].achievementName + " : " + achievement[i].preEarnedDescription, header2ErrorStyle);
+					GUI.Label(new Rect(0, yShift + 70 + (60 * i), screenWidth, 30), _achievement[i].achievementName + " : " + _achievement[i].preEarnedDescription, header2ErrorStyle);
 	       		}
 	        }
 	    }

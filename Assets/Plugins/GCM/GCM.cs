@@ -42,6 +42,7 @@ public class GCM {
 		if (Application.platform == RuntimePlatform.Android) {
 			using (AndroidJavaClass cls = new AndroidJavaClass (CLASS_NAME)) {
 				string senderIdsStr = string.Join (",", senderIds);
+				Debug.Log ("Try GCM Registeration in GCM.Register " + senderIdsStr);
 				cls.CallStatic ("register", senderIdsStr);
 			}
 		}

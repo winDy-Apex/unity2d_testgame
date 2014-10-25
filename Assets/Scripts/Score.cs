@@ -21,7 +21,7 @@ public class Score : MonoBehaviour {
 			PlayerControl.gamePlayed = false;
 			Debug.Log("Score is : " + System.Convert.ToString(previousScore));
 
-			GBaaSObject.Instance.AddScore(new GBScoreObject {
+			GBaaSObject.Instance.API.AddScore(new GBScoreObject {
 				stage = "1",
 				score = previousScore,
 				unit = "point"
