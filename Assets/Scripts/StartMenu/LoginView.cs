@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using System.Net;
+using System.IO;
+using System;
+using System.Collections;
 
 public interface LoginViewListener {
 	void OnEnterGame();
@@ -97,14 +101,13 @@ public class LoginView : View {
         if(GUI.Button(new Rect(xShift + 140, yShift + 260, 120, 30), "바로시작")) {
             enterGameWithOutIDHandler();
         }
-        
-        // Enabling UI: 
 
+        // Enabling UI: 
         GUI.enabled = true;
 
     }
-
+	
 	public void setBlockUI(bool blockUI) {
-        this.blockUI = blockUI;
-    }
+		this.blockUI = blockUI;
+	}
 }

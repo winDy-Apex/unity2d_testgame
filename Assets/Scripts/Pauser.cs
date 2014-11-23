@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using GBaaS.io;
+using GBaaS.io.Objects;
+using GBaaS.io.Services;
 using System.Collections;
 
 public class Pauser : MonoBehaviour {
@@ -9,6 +12,12 @@ public class Pauser : MonoBehaviour {
 		if(Input.GetKeyUp(KeyCode.P))
 		{
 			paused = !paused;
+		}
+		
+		if(Input.GetKeyUp(KeyCode.L))
+		{
+			Debug.Log("Try Get File List From GBaaS");
+			GBaaSObject.Instance.API.GetFileList();
 		}
 
 		if(paused)

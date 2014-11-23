@@ -68,6 +68,18 @@ public class GBaaSObject : MonoBehaviour {
 				_outerClass.RegisterDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", GBaaSObject._registrationId);
 			}
 		}
+		
+		public override void OnFileUpload(bool result) {
+			Debug.Log ("GBaaSAsyncHandler OnFileUpload " + result.ToString());
+		}
+
+		public override void OnFileDownload(bool result) {
+			Debug.Log ("GBaaSAsyncHandler OnFileDownload " + result.ToString());
+		}
+
+		public override void OnGetFileList(List<GBAsset> result) {
+			Debug.Log ("GBaaSAsyncHandler OnGetFileList " + result.Count.ToString());
+		}
 	}
 
 	public GBaaSApi API = null;
@@ -120,7 +132,7 @@ public class GBaaSObject : MonoBehaviour {
 
 				// PUSH 알림을 받을 단말기의 정보를 입력하는 부분
 				GCM.SetRegisteredCallback ((string registrationId) => {
-					Debug.Log ("Registered!!! registrationId = " + registrationId);
+					Debug.Log ("[GBaaS] Registered!!! registrationId = " + registrationId + " / deviceModel = " + SystemInfo.deviceModel + " / operatingSystem = " + SystemInfo.operatingSystem);
 					IsRegisteredDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", registrationId);
 				});
 
