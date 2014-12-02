@@ -60,12 +60,28 @@ public class GBaaSObject : MonoBehaviour {
 				Debug.Log("uuid:" + item.uuid);
 			}
 		}
+
+		public override void OnLogin(bool result) {
+			Debug.Log("GBaaSAsyncHandler OnLogin");
+
+			if(GBaaSObject._registrationId != "") {
+				_outerClass.API.RegisterDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", GBaaSObject._registrationId);
+			}
+		}
 		
+		public override void OnLoginWithFaceBook(bool result) {
+			OnLogin(result);
+		}
+		
+		public override void OnLoginWithoutID(bool result) {
+			OnLogin(result);
+		}
+
 		public override void OnIsRegisteredDevice(bool result) {
 			Debug.Log ("GBaaSAsyncHandler OnIsRegisteredDevice " + result.ToString());
 
 			if(!result) {
-				_outerClass.RegisterDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", GBaaSObject._registrationId);
+				//_outerClass.RegisterDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", GBaaSObject._registrationId);
 			}
 		}
 		
@@ -133,7 +149,8 @@ public class GBaaSObject : MonoBehaviour {
 				// PUSH 알림을 받을 단말기의 정보를 입력하는 부분
 				GCM.SetRegisteredCallback ((string registrationId) => {
 					Debug.Log ("[GBaaS] Registered!!! registrationId = " + registrationId + " / deviceModel = " + SystemInfo.deviceModel + " / operatingSystem = " + SystemInfo.operatingSystem);
-					IsRegisteredDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", registrationId);
+					
+					_registrationId = registrationId;
 				});
 
 				GCM.SetUnregisteredCallback ((string registrationId) => {
