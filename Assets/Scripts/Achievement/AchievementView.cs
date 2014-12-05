@@ -7,6 +7,7 @@ using GBaaS.io.Objects;
 public interface AchievementViewListener {
 	void OnEnterGame();
 	void OnExitGame();
+	void OnPayment(string paymentCode);
 }
 
 public class AchievementView : GBaaSApiHandler, View {
@@ -38,6 +39,12 @@ public class AchievementView : GBaaSApiHandler, View {
 	public void exitGameHandler() {
 		if(_listener != null) {
 			_listener.OnExitGame();
+		}
+	}
+
+	public void tryXiaomiPayment(string paymentCode) {
+		if(_listener != null) {
+			_listener.OnPayment(paymentCode);
 		}
 	}
 	
@@ -107,7 +114,13 @@ public class AchievementView : GBaaSApiHandler, View {
         if(GUI.Button(new Rect(xShift + 140, yShift + 420, 120, 30), "점수보기")) {
         	//logout();
             exitGameHandler();
-        }
+		}
+
+		// Try Xiaomi Payment.
+		if(GUI.Button(new Rect(xShift, yShift + 460, 160, 30), "Xiaomi 결제하기")) {
+			//logout();
+			tryXiaomiPayment(GBaaSUserObject.XIAOMI_PAY_CODE1);
+		}
 
         // Enabling UI: 
 

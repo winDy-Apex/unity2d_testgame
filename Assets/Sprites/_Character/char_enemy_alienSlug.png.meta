@@ -1,6 +1,11 @@
 fileFormatVersion: 2
 guid: 361e1e5d552ad444fb688b5203c01caa
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: enemy1-tail
+    21300002: enemy1-body
+    21300004: enemy1-eye
+    21300006: enemy1-eyelid
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +40,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +56,7 @@ TextureImporter:
         height: 168
       alignment: 5
       pivot: {x: 1, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: enemy1-body
       rect:
         serializedVersion: 2
@@ -59,6 +66,7 @@ TextureImporter:
         height: 464
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: enemy1-eye
       rect:
         serializedVersion: 2
@@ -68,6 +76,7 @@ TextureImporter:
         height: 100
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: enemy1-eyelid
       rect:
         serializedVersion: 2
@@ -77,5 +86,6 @@ TextureImporter:
         height: 136
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: characters
   userData: 

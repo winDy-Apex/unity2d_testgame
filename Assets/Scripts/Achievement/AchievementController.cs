@@ -78,6 +78,10 @@ public class AchievementController : MonoBehaviour, AchievementViewListener {
 		Application.LoadLevel(3);
 	}
 
+	public void OnPayment(string paymentCode) {
+		IAP_Xiaomi.Instance.Payment(paymentCode);
+	}
+
 	// This function will draw UI components
 	public void OnGUI () {
 		// Getting current view by active view name:

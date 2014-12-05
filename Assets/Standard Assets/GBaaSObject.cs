@@ -12,6 +12,10 @@ using System.Security.Cryptography.X509Certificates;
 // GBaaS Api 를 맵핑하여 게임에 특화된 파라미터를 미리 입력하여 편리하게 사용한다.
 // dev.gbaas.io 에서 얻을 수 있는 Summary >> Access Information 의
 // API Endpoint 값으로 Init()을 호출한 후 사용할 수 있다.
+// GBaaS SDK의 기능을 호출 할 수 있는 진입점을 제공하는 싱글톤 클래스
+// 모든 GBaaS 기능은 이 싱글톤 클래스를 이용하여 사용할 수 있습니다.
+// 예. GBaaSObject.Instance.API.GetScore(...생략...) 등
+// GBaaS API 의 자세한 사용법은 GBaaS 서비스 사이트의 개발자 가이드를 참고하세요.
 public class GBaaSObject : MonoBehaviour {
 
 	static GBaaSObject instance;
@@ -30,8 +34,6 @@ public class GBaaSObject : MonoBehaviour {
 		}
 	}
 
-	// C# Doesn't Allow Multiple Inheritance.
-	// So GBaaS Api Handler Implement as a Inner Class.
 	// GBaaS SDK 를 Async 로 동작 시킬 경우
 	// GBaaS 처리후 이벤트를 받을 핸들러의 원형(GBaaSApiHandler)
 	// 핸들러의 해당 메시지에 처리 후 동작을 정의하여 사용하면 됩니다.
@@ -45,7 +47,6 @@ public class GBaaSObject : MonoBehaviour {
 
 		public override void OnGetAchievement(List<GBAchievementObject> result) {
 			Debug.Log ("GBaaSAsyncHandler OnGetAchievement count = " + result.Count.ToString());
-			//_outerClass.achievement = result;
 			
 			foreach (var item in result) {
 				Debug.Log("achievementName:" + item.achievementName);
@@ -79,10 +80,6 @@ public class GBaaSObject : MonoBehaviour {
 
 		public override void OnIsRegisteredDevice(bool result) {
 			Debug.Log ("GBaaSAsyncHandler OnIsRegisteredDevice " + result.ToString());
-
-			if(!result) {
-				//_outerClass.RegisterDevice(SystemInfo.deviceModel, SystemInfo.operatingSystem, "android", GBaaSObject._registrationId);
-			}
 		}
 		
 		public override void OnFileUpload(bool result) {
@@ -107,20 +104,25 @@ public class GBaaSObject : MonoBehaviour {
 		return true;
 	}
 
-	// for Javascript
+	// for Javascript Dummy Init
 	public void Init() {
 		Init (null);
 	}
 
 	// GBaaS Api 를 초기화 한다.
+	// 초기화를 제외한 대부분의 동작은
+	// GBaaSObject.Instance.API.GetScore(...생략...) 의 형식으로
+	// GBaaS API 를 직접 호출 하며
+	// GBaaSObject에는 API 호출을 간소화하기 위한 일부 함수가 제공되어 있습니다.
+	// 편의를 위해서 코드를 추가한 경우에는 SDK 업데이트시 수정내용이 손실 되지 않도록
+	// 별도의 버전관리를 사용하시기를 추천드립니다.
+	// GBaaS API 사용법은 개발자 가이드를 참고 부탁드립니다.
 	public void Init(GBaaSApiHandler handler = null) {
 		if(API == null) {
 			ServicePointManager.ServerCertificateValidationCallback = Validator;
-			API = new GBaaSApi(GBaaSUserObject.API_ENDPOINT); //GBaaSMan2
-
+			API = new GBaaSApi(GBaaSUserObject.API_ENDPOINT);
 			API.AddHandler(new GBaaSAsyncHandler(this));
 
-			// 구글에서 받은 Project Number를 입력하는 부분 
 			string[] senderIds = {GBaaSUserObject.GOOGLE_PROJECT_NUM_FOR_GCM};
 
 #if UNITY_ANDROID
@@ -162,6 +164,11 @@ public class GBaaSObject : MonoBehaviour {
 				});
 
 				GCM.Register (senderIds);
+			}
+
+			if(GBaaSUserObject.XIAOMI_APPID.Length > 0) {
+				// Xiaomi IAP Initialize
+				IAP_Xiaomi.Instance.Init(GBaaSUserObject.XIAOMI_APPID, GBaaSUserObject.XIAOMI_APPKEY);
 			}
 #endif
 		}
@@ -233,10 +240,10 @@ public class GBaaSObject : MonoBehaviour {
 	}
 
 //********** For AchievementService ********** //
-	/// <summary>
-	/// Adds the achievement.
-	/// </summary>
-	/// <param name="achievementType">Achievement type.</param>
+	// 사용자가 dev.gbaas.io 를 통해서 생성한 업적 정보를 갱신하기 위해서
+	// 필요한 정보를 입력하여 사용하는 부분
+	// 아래의 코드는 샘플로서 유니티에서 업적 타입을 지정하여 요청하면
+	// GBaaS에 생성된 업적 정보로 변환하여 갱신을 요청하도록 되어있습니다.
 	public bool UpdateAchievement(int achievementType) {
 		GBAchievementObject result = null;
 		if(achievementType == 0) {

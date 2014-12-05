@@ -1,6 +1,17 @@
 fileFormatVersion: 2
 guid: e7d3a1e0e2fac4bd48b6734c2daf4fe1
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: rightFoot
+    21300002: leftFoot
+    21300004: body
+    21300006: tache
+    21300008: leftHand
+    21300010: hat
+    21300012: rightHand
+    21300014: bazooka
+    21300016: rightEye
+    21300018: leftEye
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +46,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +62,7 @@ TextureImporter:
         height: 61
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: leftFoot
       rect:
         serializedVersion: 2
@@ -59,6 +72,7 @@ TextureImporter:
         height: 40
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: body
       rect:
         serializedVersion: 2
@@ -68,6 +82,7 @@ TextureImporter:
         height: 341
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: tache
       rect:
         serializedVersion: 2
@@ -77,6 +92,7 @@ TextureImporter:
         height: 44
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: leftHand
       rect:
         serializedVersion: 2
@@ -86,6 +102,7 @@ TextureImporter:
         height: 34
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: hat
       rect:
         serializedVersion: 2
@@ -95,6 +112,7 @@ TextureImporter:
         height: 71
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: rightHand
       rect:
         serializedVersion: 2
@@ -104,6 +122,7 @@ TextureImporter:
         height: 55
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: bazooka
       rect:
         serializedVersion: 2
@@ -113,6 +132,7 @@ TextureImporter:
         height: 196
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: rightEye
       rect:
         serializedVersion: 2
@@ -122,6 +142,7 @@ TextureImporter:
         height: 72
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: leftEye
       rect:
         serializedVersion: 2
@@ -131,5 +152,6 @@ TextureImporter:
         height: 27
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: characters
   userData: 
