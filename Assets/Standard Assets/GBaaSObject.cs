@@ -167,8 +167,9 @@ public class GBaaSObject : MonoBehaviour {
 			}
 
 			if(GBaaSUserObject.XIAOMI_APPID.Length > 0) {
-				// Xiaomi IAP Initialize
-				IAP_Xiaomi.Instance.Init(GBaaSUserObject.XIAOMI_APPID, GBaaSUserObject.XIAOMI_APPKEY);
+				// GBaaSAndroid Initialize with Lean and Xiaomi info.
+				GBaaSAndroid.Instance.Init(GBaaSUserObject.LEAN_APPID, GBaaSUserObject.LEAN_APPKEY, 
+				                           GBaaSUserObject.XIAOMI_APPID, GBaaSUserObject.XIAOMI_APPKEY);
 			}
 #endif
 		}

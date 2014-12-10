@@ -79,7 +79,7 @@ public class AchievementController : MonoBehaviour, AchievementViewListener {
 	}
 
 	public void OnPayment(string paymentCode) {
-		IAP_Xiaomi.Instance.Payment(paymentCode);
+		GBaaSAndroid.Instance.Payment(paymentCode);
 	}
 
 	// This function will draw UI components

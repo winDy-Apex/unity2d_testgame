@@ -13,14 +13,17 @@ public class GBaaSUserObject {
 	// 아래에 입력되어 있는 값은 샘플 프로젝트 앱의 API_ENDPOINT 값입니다.
 	// 직접 생성하신 App 의 정보로 변경하셔야 합니다.
 	public static string API_ENDPOINT = "https://api.gbaas.io/33e8b61a-3340-11e4-ab01-b99509431e86/2608ef70-3344-11e4-9ca9-15e8a7c9ff3a/"; //GBaaS Test Project
-	public static string GOOGLE_PROJECT_NUM_FOR_GCM = ""; //"941440455383";
+	public static string GOOGLE_PROJECT_NUM_FOR_GCM = "";
 	
 	// Xiaomi 연동 및 결제를 위한 상품 코드
 	// Xiaomi 플랫폼 연동을 위한 경우 사전에 협의 부탁드립니다.
 	// biz@apexplatform.net
 	// Xiaomi 플랫폼은 APPID, APPKEY 가 발급된 후 사용가능하므로
 	// 신청 후 일정 기간이 소요될 수 있습니다.
-	public static string XIAOMI_APPID = ""; //"2882303761517274008";
-	public static string XIAOMI_APPKEY = "5121727438008";
-	public static string XIAOMI_PAY_CODE1 = "com.eduzio.gem_1";
+	public static string LEAN_APPID = "";
+	public static string LEAN_APPKEY = "";
+
+	public static string XIAOMI_APPID = "";
+	public static string XIAOMI_APPKEY = "";
+	public static string XIAOMI_PAY_CODE1 = "";
 }
