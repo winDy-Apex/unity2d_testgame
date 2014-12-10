@@ -16,6 +16,8 @@ Library/FailedAssetImports.txt
 *.meta
 *.apk
 *.txt
+
+!Assets/StreamingAssets/MiGameCenterSDKService.apk*
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
