@@ -20,13 +20,12 @@ class ScoreView : GBaaSApiHandler, View {
 	public GUIStyle header2ErrorStyle;
 	public GUIStyle formFieldStyle;
     
-    public bool error = false;
-    public string errorMessage = "";
+    public bool 	error 			= false;
+    public string 	errorMessage 	= "";
     
-    private bool blockUI 		= false;
-    private bool isMyScoreOnly 	= false;
-    private bool isRankMode		= false;
-	private List<GBScoreObject> scores = null;
+	private bool 	blockUI 		= false;
+
+	private List<GBScoreObject> _scores = null;
  
 	private ScoreViewListener _listener = null;
 	
@@ -45,38 +44,21 @@ class ScoreView : GBaaSApiHandler, View {
 			_listener.OnExitGame();
 		}
 	}
-	
-	public void getScore() {
-		Debug.Log("ScoreView getScore");
-		GBaaSObject.Instance.Init(this);
-    	
-    	if(isMyScoreOnly) {
-			GBaaSObject.Instance.API.GetScoreLog("1", "point", 10);
-    	} else {
-			GBaaSObject.Instance.API.GetScore("1", "point", 10);
-    	}
- 	}
  	
 	public override void OnGetScore(List<GBScoreObject> result) {
-		scores = result;
-		Debug.Log("ScoreView OnGetScore result : " + scores.Count.ToString());
+		_scores = result;
+		Debug.Log("ScoreView OnGetScore result : " + _scores.Count.ToString());
 	}
 
 	public override void OnGetScoreLog(List<GBScoreObject> result) {
-		scores = result;
-		Debug.Log("ScoreView OnGetScoreLog result : " + scores.Count.ToString());
+		_scores = result;
+		Debug.Log("ScoreView OnGetScoreLog result : " + _scores.Count.ToString());
 	}
 	
 	public override void OnGetRank(List<GBScoreObject> result) {
-		scores = result;
-		Debug.Log("ScoreView OnGetRank result : " + scores.Count.ToString());
+		_scores = result;
+		Debug.Log("ScoreView OnGetRank result : " + _scores.Count.ToString());
 	}
-
-	public void getRank() {
-		Debug.Log("In getRank");
-		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.API.GetRank("", "", ScoreOrder.DESC, Period.Monthly, 0, 10);
- 	}
 	 	
  	public void pushNotify(string msg) {
 		GBaaSObject.Instance.Init(this);
@@ -104,65 +86,76 @@ class ScoreView : GBaaSApiHandler, View {
         // Main label:
         GUI.Label(new Rect(0, yShift, screenWidth, 30), "지바맨 랭킹 TOP 10", header1Style);
         
-        if(scores == null) {
+        if(_scores == null) {
 			Debug.Log("In render Score == null");
-			scores = new List<GBScoreObject>();
-			getScore();
+			_scores = new List<GBScoreObject>();
+			GBaaSObject.Instance.Init(this);
+			GBaaSObject.Instance.API.GetScore("1", "point", 10);
 			return;
 		}
 
         // Message label:
         if(error) {
             GUI.Label(new Rect(0, yShift + 70, screenWidth, 30), errorMessage, header2ErrorStyle);
-        } else {      
-        	if(this.isRankMode) {
-    		  	for(var i=0; i<scores.Count; i++) {
-		       		GUI.Label(new Rect(0, yShift + 70 + (30 * i), screenWidth, 30), "[" + scores[i].rank + "] " + scores[i].displayName + " : " + scores[i].score, header2Style);
-		        }
-        	} else {
-		       	for(var j=0; j<scores.Count; j++) {
-		       		GUI.Label(new Rect(0, yShift + 70 + (30 * j), screenWidth, 30), scores[j].displayName + " : " + scores[j].score, header2Style);
-		        }
+        } else {     
+			bool isRankMode = false;
+			if(_scores.Count > 0) {
+				isRankMode = (_scores[0].rank > 0);
 			}
+
+			float yPos = yShift + 40;
+			GUI.Label(new Rect(xShift - 320, yPos, 150, 30), "rank", header2Style);
+			GUI.Label(new Rect(xShift - 170, yPos, 150, 30), "diaplayName", header2Style);
+			GUI.Label(new Rect(xShift - 20, yPos, 150, 30), "username(ID)", header2Style);
+			GUI.Label(new Rect(xShift + 130, yPos, 150, 30), "stage", header2Style);
+			GUI.Label(new Rect(xShift + 280, yPos, 150, 30), "score", header2Style);
+			GUI.Label(new Rect(xShift + 430, yPos, 150, 30), "unit", header2Style);
+
+			for(var i=0; i<_scores.Count; i++) {
+				yPos = yShift + 70 + (30 * i);
+				if(isRankMode) GUI.Label(new Rect(xShift - 320, yPos, 150, 30), _scores[i].rank.ToString(), header2Style);
+				GUI.Label(new Rect(xShift - 170, yPos, 150, 30), _scores[i].displayName, header2Style);
+				if(_scores[i].username.Length > 10) {
+					GUI.Label(new Rect(xShift - 20, yPos, 150, 30), _scores[i].username.Substring(0, 10) + "...", header2Style);
+				} else {
+					GUI.Label(new Rect(xShift - 20, yPos, 150, 30), _scores[i].username.Substring(0, _scores[i].username.Length), header2Style);
+				}
+				GUI.Label(new Rect(xShift + 130, yPos, 150, 30), _scores[i].stage, header2Style);
+				GUI.Label(new Rect(xShift + 280, yPos, 150, 30), _scores[i].score.ToString(), header2Style);
+				GUI.Label(new Rect(xShift + 430, yPos, 150, 30), _scores[i].unit, header2Style);
+	        }
         }
         
-        // Login button:
         if(GUI.Button(new Rect(xShift, yShift + 420, 120, 30), "게임하기")) {
             enterGameHandler();
         }
        
-        // Switch to registration view button:
         if(GUI.Button(new Rect(xShift + 140, yShift + 420, 120, 30), "나가기")) {
 			Debug.Log("In Button Exit");
         	logout();
             exitGameHandler();
         }
         
-        // Login button:
         if(GUI.Button(new Rect(xShift, yShift + 460, 260, 30), "자랑하기(push)")) {
             pushNotify("지바맨2 점수자랑");
         }
         
-        // Login button:
-        if(GUI.Button(new Rect(xShift, yShift + 500, 120, 30), "내점수보기")) {
-            setMyScoreMode(true);
-            setRankMode(false);
-            getScore();
-        }
-       
-        // Switch to registration view button:
-        if(GUI.Button(new Rect(xShift + 140, yShift + 500, 120, 30), "최고점수보기")) {
-            setMyScoreMode(false);
-            setRankMode(false);
-            getScore();
+		if(GUI.Button(new Rect(xShift, yShift + 500, 120, 30), "자기점수기록")) {
+			GBaaSObject.Instance.API.GetScoreLog("1", "point", 10);
+		}
+		
+		if(GUI.Button(new Rect(xShift + 140, yShift + 500, 120, 30), "상위등수보기")) {
+			GBaaSObject.Instance.API.GetScore("1", "point", 10);
         }
 
-        if(GUI.Button(new Rect(xShift + 140, yShift + 540, 120, 30), "내등수보기")) {
-            setMyScoreMode(false);
-            setRankMode(true);
-            getRank();
-        }
+		if(GUI.Button(new Rect(xShift, yShift + 540, 120, 30), "자기등수")) {
+			GBaaSObject.Instance.API.GetRank("", "", ScoreOrder.DESC, Period.Monthly);
+		}
 
+		if(GUI.Button(new Rect(xShift + 140, yShift + 540, 120, 30), "자기등수주변")) {
+			GBaaSObject.Instance.API.GetRank("", "", ScoreOrder.DESC, Period.Monthly, 0, 10);
+		}
+		
         // Enabling UI: 
 
         GUI.enabled = true;
@@ -170,13 +163,5 @@ class ScoreView : GBaaSApiHandler, View {
 
     public void setBlockUI(bool blockUI) {
         this.blockUI = blockUI;
-    }
-    
-    public void setMyScoreMode(bool boolValue) {
-        this.isMyScoreOnly = boolValue;
-    }
-    
-    public void setRankMode(bool boolValue) {
-    	this.isRankMode = boolValue;
     }
 }
