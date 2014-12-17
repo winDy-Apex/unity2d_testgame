@@ -91,7 +91,7 @@
         </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="\ 257715087728181" />
 
-        <!-- AVOS cloud push service and receiver -->
+        <!-- Lean cloud push service and receiver -->
         <service android:name="com.avos.avoscloud.PushService" />
 
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver" >
@@ -108,6 +108,6 @@
                 <action android:name="com.avos.UPDATE_STATUS" />
             </intent-filter>
         </receiver>
-        <!-- AVOS cloud push service and receiver -->
+        <!-- Lean cloud push service and receiver -->
   </application>
 </manifest>
