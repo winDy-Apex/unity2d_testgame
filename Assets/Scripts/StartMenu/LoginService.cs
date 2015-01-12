@@ -37,10 +37,10 @@ public class LoginService : GBaaSApiHandler {
     	}
     }
 
-	public override void OnLogin(bool result) {
+	public override void OnLogin(GBResult result) {
 		Response response = new Response(); 
 
-		if(result == true) {
+		if(result.isSuccess == true) {
 			Debug.Log("You are loggin successfully");
 			GBaaSObject.loginName = _loginData.username;
 			response.error = false;
@@ -48,7 +48,7 @@ public class LoginService : GBaaSApiHandler {
 		} else {
 			// Error was while connecting/reading response 
 			// from server:
-			Debug.Log("Error: Login");
+			Debug.Log("Error: OnLogin : " + result.reason);
 			response.error = true;
 			response.message = "Error: failed Login to server";
 		}
@@ -57,14 +57,14 @@ public class LoginService : GBaaSApiHandler {
 		_listener.loginResponseHandler(response);
 	}
 
-	public override void OnLoginWithFaceBook(bool result) {
+	public override void OnLoginWithFaceBook(GBResult result) {
 		OnLogin(result);
 	}
 
-	public override void OnLoginWithoutID(bool result) {
+	public override void OnLoginWithoutID(GBResult result) {
 		Debug.Log("OnLoginWithoutID");
 
-		if(result == true) {
+		if(result.isSuccess == true) {
 			_gbaas.API.UpdateUserName("John");
 		}
 
@@ -82,7 +82,7 @@ public class LoginService : GBaaSApiHandler {
 			_userInfo = result;
 			Debug.Log("GetUserInfo username : "	+ _userInfo.username);
 			Debug.Log("GetUserInfo name : " 	+ _userInfo.name);
-			OnLogin(true);
+			OnLogin(new GBResult { isSuccess = true, returnCode = ReturnCode.Success, reason = "" });
 		}
 	}
     

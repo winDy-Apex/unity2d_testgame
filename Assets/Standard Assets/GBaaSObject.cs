@@ -62,7 +62,7 @@ public class GBaaSObject : MonoBehaviour {
 			}
 		}
 
-		public override void OnLogin(bool result) {
+		public override void OnLogin(GBResult result) {
 			Debug.Log("GBaaSAsyncHandler OnLogin");
 
 			if(GBaaSObject._registrationId != "") {
@@ -70,11 +70,11 @@ public class GBaaSObject : MonoBehaviour {
 			}
 		}
 		
-		public override void OnLoginWithFaceBook(bool result) {
+		public override void OnLoginWithFaceBook(GBResult result) {
 			OnLogin(result);
 		}
 		
-		public override void OnLoginWithoutID(bool result) {
+		public override void OnLoginWithoutID(GBResult result) {
 			OnLogin(result);
 		}
 
