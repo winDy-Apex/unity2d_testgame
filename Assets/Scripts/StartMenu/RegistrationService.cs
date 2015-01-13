@@ -20,12 +20,12 @@ class RegistrationService : GBaaSApiHandler {
 		GBaaSObject.Instance.CreateUser(registrationData.username, registrationData.name, registrationData.password, registrationData.email);
     }
 	
-	public override void OnCreateUser(string result) {
-		Debug.Log("OnCreateUser " + result);
+	public override void OnCreateUser(GBResult result) {
+		Debug.Log("OnCreateUser " + result.reason);
 
 		Response response = new Response(); 
 
-		if(result.Length > 0) {
+		if(result.isSuccess) {
 			// Registration was successful:
 			Debug.Log("You was registered successfully");
 			response.error = false;

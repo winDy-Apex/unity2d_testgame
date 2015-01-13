@@ -187,7 +187,7 @@ public class GBaaSObject : MonoBehaviour {
 	/// <param name="userName">사용자 ID</param>
 	/// <param name="password">암호</param>
 	/// <param name="email">email</param>
-	public string CreateUser(string userID, string displayName, string password, string email) {
+	public GBResult CreateUser(string userID, string displayName, string password, string email) {
 		Debug.Log("CreateUser");
 		GBUserObject userModel = new GBUserObject {
 			username = userID,
