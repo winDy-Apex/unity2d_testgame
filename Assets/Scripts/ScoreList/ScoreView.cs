@@ -46,8 +46,12 @@ class ScoreView : GBaaSApiHandler, View {
 	}
  	
 	public override void OnGetScore(List<GBScoreObject> result) {
-		_scores = result;
-		Debug.Log("ScoreView OnGetScore result : " + _scores.Count.ToString());
+		if(result[0].isSuccess) {
+			Debug.Log("ScoreView OnGetScore result : " + _scores.Count.ToString());
+			_scores = result;
+		} else {
+			Debug.Log("ScoreView OnGetScore Fail returnCode(" + result[0].returnCode + ") reason(" + result[0].reason + ")");
+		}
 	}
 
 	public override void OnGetScoreLog(List<GBScoreObject> result) {
