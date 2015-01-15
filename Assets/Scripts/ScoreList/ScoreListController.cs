@@ -66,7 +66,7 @@ public class ScoreListController : MonoBehaviour, ScoreViewListener {
 		Debug.Log("OnEnterGame");
 		blockUI = true;
 		Application.LoadLevel(2);
-		GBaaSObject.Instance.API.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
+		GBaaSObject.Instance.API.GetAchievement("ko-KR", 10, "");
 	}
 	
 	public void OnExitGame() {

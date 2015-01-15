@@ -53,7 +53,7 @@ public class AchievementView : GBaaSApiHandler, View {
  
  	public void getAchievement() {
 		GBaaSObject.Instance.Init(this);
-		GBaaSObject.Instance.API.GetAchievement(GBaaSObject.loginName, 10, "ko-KR");
+		GBaaSObject.Instance.API.GetAchievement("ko-KR", 10, "");
  	}
  	
 	public override void OnGetAchievement(List<GBAchievementObject> result) {

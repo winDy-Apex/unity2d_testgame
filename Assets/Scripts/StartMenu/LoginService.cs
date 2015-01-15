@@ -41,7 +41,7 @@ public class LoginService : GBaaSApiHandler {
 		Response response = new Response(); 
 
 		if(result.isSuccess == true) {
-			Debug.Log("You are loggin successfully");
+			Debug.Log("You are loggin successfully loginName:" + _loginData.username);
 			GBaaSObject.loginName = _loginData.username;
 			response.error = false;
 			response.message = "";
@@ -71,8 +71,8 @@ public class LoginService : GBaaSApiHandler {
 		OnLogin(result);
 	}
 	
-	public override void OnUpdateUserName(bool result) {
-		if(result == true) {
+	public override void OnUpdateUserName(GBResult result) {
+		if(result.isSuccess) {
 			_userInfo = _gbaas.API.GetUserInfo();
 		}
 	}
