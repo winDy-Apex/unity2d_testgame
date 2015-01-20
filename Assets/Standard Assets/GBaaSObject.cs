@@ -236,7 +236,7 @@ public class GBaaSObject : MonoBehaviour {
 	/// 	dayToUse = "2014-04-16 15:28:32.0"
 	/// });
 	/// @endcode
-	public bool ReceiptSave(GBReceiptObject receipt) {
+	public GBResult ReceiptSave(GBReceiptObject receipt) {
 		return receipt.Save();
 	}
 
