@@ -128,16 +128,17 @@ public class GBaaSObject : MonoBehaviour {
 #if UNITY_ANDROID
 			if(GBaaSUserObject.GOOGLE_PROJECT_NUM_FOR_GCM.Length > 0) {
 				// PUSH 알림 수신을 위한 GCM 초기화 부분
+				Debug.Log ("[GBaaS-GCM] Try GCM Init");
 				GCM.Initialize ();
 				
 				// Set callbacks
 				GCM.SetErrorCallback ((string errorId) => {
-					Debug.Log ("Error!!! " + errorId);
+					Debug.Log ("[GBaaS-GCM] Error!!! " + errorId);
 				});
 				
 				// PUSH 알림 메시지 수신에 대한 처리를 추가하여야 하는 부분
 				GCM.SetMessageCallback ((Dictionary<string, object> table) => {
-					Debug.Log ("Message!!! " + table.ToString());
+					Debug.Log ("[GBaaS-GCM] Message!!! " + table.ToString());
 
 					//string text = "Message: " + System.Environment.NewLine;
 					//foreach (var key in  table.Keys) {
@@ -150,17 +151,17 @@ public class GBaaSObject : MonoBehaviour {
 
 				// PUSH 알림을 받을 단말기의 정보를 입력하는 부분
 				GCM.SetRegisteredCallback ((string registrationId) => {
-					Debug.Log ("[GBaaS] Registered!!! registrationId = " + registrationId + " / deviceModel = " + SystemInfo.deviceModel + " / operatingSystem = " + SystemInfo.operatingSystem);
+					Debug.Log ("[GBaaS-GCM] Registered!!! registrationId = " + registrationId + " / deviceModel = " + SystemInfo.deviceModel + " / operatingSystem = " + SystemInfo.operatingSystem);
 					
 					_registrationId = registrationId;
 				});
 
 				GCM.SetUnregisteredCallback ((string registrationId) => {
-					Debug.Log ("Unregistered!!! " + registrationId);
+					Debug.Log ("[GBaaS-GCM] Unregistered!!! " + registrationId);
 				});
 				
 				GCM.SetDeleteMessagesCallback ((int total) => {
-					Debug.Log ("DeleteMessages!!! " + total);
+					Debug.Log ("[GBaaS-GCM] DeleteMessages!!! " + total);
 				});
 
 				GCM.Register (senderIds);
@@ -249,10 +250,10 @@ public class GBaaSObject : MonoBehaviour {
 		GBAchievementObject result = null;
 		if(achievementType == 0) {
 			Debug.Log ("Update Achievement UseBombMoreThanOnce");
-			result = API.UpdateAchievement("6fc2135a-54f8-11e4-ba58-3bba8e7daf56", 1, true);
+			result = API.UpdateAchievement("87b9c7fa-bd8f-11e4-bb1e-d7881e792072", 1, true);
 		} else if(achievementType == 1) {
 			Debug.Log ("Update Achievement GetScore2000Over");
-			result = API.UpdateAchievement("d0b24e5a-54f3-11e4-b688-3199c630a20e", 1, true);
+			result = API.UpdateAchievement("6cd6b1aa-bd8f-11e4-b9ca-215d8ebe7816", 1, true);
 		}
 		return (result != null);
 	}

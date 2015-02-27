@@ -12,8 +12,8 @@ public class GBaaSUserObject {
 	// 서비스 사이트의 개발자 가이드를 참고하십시오.
 	// 아래에 입력되어 있는 값은 샘플 프로젝트 앱의 API_ENDPOINT 값입니다.
 	// 직접 생성하신 App 의 정보로 변경하셔야 합니다.
-	public static string API_ENDPOINT = "https://api.gbaas.io/33e8b61a-3340-11e4-ab01-b99509431e86/2608ef70-3344-11e4-9ca9-15e8a7c9ff3a/"; //GBaaS Test Project
-	public static string GOOGLE_PROJECT_NUM_FOR_GCM = "";
+	public static string API_ENDPOINT = "https://api.gbaas.io/33e8b61a-3340-11e4-ab01-b99509431e86/ecf9ff50-bd8e-11e4-88dd-950cc9400d23/"; //GBaaS Test Project
+	public static string GOOGLE_PROJECT_NUM_FOR_GCM = "941440455383";
 	
 	// Xiaomi 연동 및 결제를 위한 상품 코드
 	// Xiaomi 플랫폼 연동을 위한 경우 사전에 협의 부탁드립니다.
